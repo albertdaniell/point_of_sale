@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   Image
 } from 'react-native';
+import {NavigationActions} from 'react-navigation';
+
 import firebase from 'firebase'
 import {Container} from 'native-base';
 import Firebase from '../firebaseConfig'
@@ -15,6 +17,50 @@ import Firebase from '../firebaseConfig'
 // Your web app's Firebase configuration
 
 export class Home extends Component {
+
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+      userEmail:''
+    }
+  }
+  
+
+  logOut = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(function () {
+        // alert("Logout succees")
+        this
+          .props
+          .navigation
+          .reset([NavigationActions.navigate({routeName: 'Login'})], 0);
+
+      })
+      .catch((error) => {
+        // alert("An erro occured.",error)
+      });
+
+  }
+
+  getUserDetails=()=>{
+    firebase.auth().onAuthStateChanged((user)=> {
+      if (user) {
+        this.setState({
+          userEmail:user.email
+        })
+      } else {
+        // No user is signed in.
+      }
+    });
+    
+  }
+
+  componentDidMount(){
+    this.getUserDetails()
+  }
   render() {
     return (
       <View style={{
@@ -67,6 +113,7 @@ export class Home extends Component {
         </TouchableOpacity>
 
         <TouchableOpacity
+          onPress={() => this.logOut()}
           style={{
           width: '100%',
           padding: 20,
@@ -77,7 +124,7 @@ export class Home extends Component {
             style={{
             color: 'white',
             fontSize: 20
-          }}>My Account</Text>
+          }}>Logout ({this.state.userEmail})</Text>
         </TouchableOpacity>
       </View>
     )

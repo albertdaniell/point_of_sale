@@ -5,7 +5,7 @@ import {
   View,
   Button,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,ActivityIndicator
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import firebase from 'firebase'
@@ -80,10 +80,11 @@ export class Login extends Component {
         console.log("Login Successful")
         this.props.navigation.reset([NavigationActions.navigate({ routeName: 'Home' })], 0);
       })
-      .catch(function (error) {
+      .catch( (error)=> {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
+        alert(errorMessage)
         console.log(errorMessage)
         // ...
       });

@@ -9,7 +9,8 @@ import {
   Button,
   TextInput,
   TouchableOpacity,
-  Image,ScrollView
+  Image,
+  ScrollView
 } from 'react-native';
 import firebase from 'firebase'
 import {Container} from 'native-base';
@@ -31,8 +32,8 @@ export class Makesales extends Component {
       tax: 16,
       cartItems: 0,
       totalAm: 0,
-      receiptid:uuid(),
-      showPreviewBtn:false
+      receiptid: uuid(),
+      showPreviewBtn: false
     };
 
     showPreviewFn = this
@@ -45,53 +46,78 @@ export class Makesales extends Component {
     myPrint = this
       .myPrint
       .bind(this)
+
+    removeCart = this
+      .removeCart
+      .bind(this)
   };
+
+  pullAllSales=()=>{
+    var ref = firebase
+    .database()
+    .ref('mysales');
+
+    ref.on("value", (snapshot) => {
+      var childData = Object.values(snapshot.val());
+      //console.log(childData) Object.values()
+
+      snapshot.forEach((childSnapshot) => {
+        var childKey = childSnapshot.key;
+        console.log(childSnapshot.val())
+        // ...
+        // console.log(childData)
+
+      });
+
+      // console.log(data.val().product_name)
+
+    })
+  }
   myFn = () => {
 
     setTimeout(() => {
       console.log(this.state.totalAm)
     }, 1000);
     //   setTimeout(() => {     this.state.cart.map((c)=>{         var totalam=0;
-    //   for (i=1;i<this.state.cartItems;i++){             totalam =totalam +
-    // c.amount             //console.log("the amount is ",totalam) this.setState({
-    //                totalAm:totalam             })   }     })   }, 1000);
+    // for (i=1;i<this.state.cartItems;i++){             totalam =totalam + c.amount
+    //             //console.log("the amount is ",totalam) this.setState({
+    // totalAm:totalam             })   }     })   }, 1000);
   }
 
   myPrint = () => {
 
     setTimeout(() => {
-        this.showPreviewFn()
+      this.showPreviewFn()
     }, 1000);
 
     var ref = firebase
-    .database()
-    .ref('mysales');
+      .database()
+      .ref('mysales');
 
-    ref.push({
-        cart:this.state.cart,
-        total:this.state.totalAm,
-        uuid:uuid()
-       
-
-    }).then(()=>{
+    ref
+      .push({cart: this.state.cart, total: this.state.totalAm, uuid: uuid()})
+      .then(() => {
         console.log("Data has been saved to db")
-    })
+      })
 
     console.log("......*****");
-    
+
     var d = new Date();
-    let year=d.getFullYear();
-    let date=d.getDate()
-    let month=d.getMonth()
-    let myYear= date + "-"+ month + " "+ year
+    let year = d.getFullYear();
+    let date = d.getDate()
+    let month = d.getMonth()
+    let myYear = date + "-" + month + " " + year
     let num1 = 2000;
-    let total=this.state.totalAm
-    let receiptid=this.state.receiptid
-    var cartItems2=this.state.cartItems;
-    let cartItems=this.state.cart.map((c)=>{
-        return c.pname +"-" + c.amount + "</br>"
-           
-    })
+    let total = this.state.totalAm
+    let receiptid = this.state.receiptid
+    var cartItems2 = this.state.cartItems;
+    let cartItems = this
+      .state
+      .cart
+      .map((c) => {
+        return c.pname + "-" + c.amount + "</br>"
+
+      })
     let html = `<div>
       <center>
       <p>${receiptid}</p>
@@ -133,11 +159,24 @@ export class Makesales extends Component {
     // var totalam=0     for (i=0;i<this.state.cartItems.length;i++){ totalam     }
   }
 
+  removeCart = (id,amount) => {
+setTimeout(() => {
+  let myfilteredcartItems = this
+  .state
+  .cart
+  .filter((c) => {
+    return c.uuid !== id
+  })
+
+this.setState({cart: myfilteredcartItems})
+var totalamount = parseInt(this.state.totalAm-amount)
+this.setState({totalAm: totalamount})
+}, 200);
+  }
+
   addToCart = (id, pname, amount) => {
     setTimeout(() => {
-this.setState({
-    showPreviewBtn:true
-})
+      this.setState({showPreviewBtn: true})
       this.calcItems()
       this.myFn()
       var totalamount = parseInt(amount + this.state.totalAm)
@@ -147,7 +186,8 @@ this.setState({
         id: id,
         pname: pname,
         amount: amount,
-        date: this.state.date
+        date: this.state.date,
+        uuid:uuid()
       }
 
       this.setState({
@@ -169,27 +209,46 @@ this.setState({
     })
   }
 
+  checkEmptyCart=()=>{
+    setInterval(() => {
+      if(this.state.cart===[]){
+        this.setState({
+       showPreviewBtn:false,
+       showPreview:false   
+        })
+      }
+    }, 1000);
+
+    console.log("checking empty array")
+  }
+
+  componentDidUpdate(){
+this.checkEmptyCart()
+  }
+
   render() {
     return (
       <View style={{
         flex: 1
       }}>
-          <ScrollView style={{marginBottom:100}}>
+        <ScrollView style={{
+          marginBottom: 100
+        }}>
           <Products addToCart={this.addToCart}></Products>
 
-          </ScrollView>
+        </ScrollView>
 
-          {
-              this.state.showPreviewBtn?
-              <Preview showPreviewFn={this.showPreviewFn}></Preview>
+        {this.state.showPreviewBtn
+          ? <Preview showPreviewFn={this.showPreviewFn}></Preview>
 
-              :null
-          }
+          : null
+}
 
         <Quant cartItems={this.state.cartItems} totalAm={this.state.totalAm}></Quant>
 
         {this.state.showPreview
           ? <PreviewView
+              removeCart={this.removeCart}
               myPrint={this.myPrint}
               totalAm={this.state.totalAm}
               cart={this.state.cart}
