@@ -23,7 +23,7 @@ export class Additems extends Component {
 
     this.state = {
       Itemname: '',
-      Itemprice: null,
+      Itemprice: 0,
       id: uuid(),
       isLoading: false
     }
@@ -43,7 +43,7 @@ export class Additems extends Component {
       .ref('products');
 
     ref
-      .push({product_name: this.state.Itemname, price: this.state.Itemprice, id: this.state.id})
+      .push({product_name: this.state.Itemname, price: parseInt(this.state.Itemprice), id: this.state.id})
       .then(() => {
         alert("Item has been added to the database")
         setTimeout(() => {
