@@ -5,7 +5,9 @@ import {
   View,
   Button,
   TextInput,
-  TouchableOpacity
+  ActivityIndicator,
+  TouchableOpacity,
+  ScrollView
 } from 'react-native';
 import firebase from 'firebase'
 import {Container} from 'native-base';
@@ -19,7 +21,8 @@ export class Products extends Component {
     super(props)
 
     this.state = {
-      products: []
+      products: [],
+      loadingProducts: true
     };
   };
 
@@ -29,14 +32,13 @@ export class Products extends Component {
       .ref('products')
     prodRef.on("value", (snapshot) => {
       var childData = Object.values(snapshot.val());
-      //console.log(childData)
-      // Object.values()
+      //console.log(childData) Object.values()
 
       snapshot.forEach((childSnapshot) => {
         var childKey = childSnapshot.key;
         console.log(childSnapshot.val())
         // ...
-        this.setState({products: childData})
+        this.setState({products: childData, loadingProducts: false})
         // console.log(childData)
 
       });
@@ -53,22 +55,40 @@ export class Products extends Component {
   render() {
     return (
 
-      <View>
+      <View style={{
+        flex: 1
+      }}>
+        {
+          this.state.loadingProducts?
+<View style={{padding:20,flex:1,alignItems:'center',justifyContent:'center'}}>
+<ActivityIndicator size="large" color="#0000ff"/>
 
-        {this
-          .state
-          .products
-          .map((p) => {
-            return (
-              <TouchableOpacity onPress={()=>this.props.addToCart(p.id,p.product_name,p.price)} style={styles.myTouch} key={p.id}>
-                <Text style={styles.myText}>{p.product_name}</Text>
-                <Text style={{fontStyle:'italic',}}>Ksh. {p.price} /-</Text>
-              </TouchableOpacity>
+</View>
+          :<ScrollView>
+          {this
+            .state
+            .products
+            .map((p) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => this.props.addToCart(p.id, p.product_name, p.price)}
+                  style={styles.myTouch}
+                  key={p.id}>
+                  <Text style={styles.myText}>{p.product_name}</Text>
+                  <Text style={{
+                    fontStyle: 'italic'
+                  }}>Ksh. {p.price}
+                    /-</Text>
+                </TouchableOpacity>
 
-            )
+              )
 
-          })
+            })
 }
+        </ScrollView>
+        }
+        
+
       </View>
     )
   }

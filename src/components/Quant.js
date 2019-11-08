@@ -34,8 +34,8 @@ export class Quant extends Component {
           borderRadius: 4,
           bottom: 10,
         }}>
-          <Text style={{color:'white'}}>
-              {cartItems} Items   |  Amount: Ksh. | {totalAm}
+          <Text style={{color:'white',fontSize:20}}>
+              {cartItems} Items   |  Amount: Ksh. {totalAm}  |
           </Text>
         </View>
       </View>

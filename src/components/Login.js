@@ -78,7 +78,7 @@ export class Login extends Component {
       .then((res) => {
         //console.log(res)
         console.log("Login Successful")
-        navigation.reset([NavigationActions.navigate({ routeName: 'Home' })], 0);
+        this.props.navigation.reset([NavigationActions.navigate({ routeName: 'Home' })], 0);
       })
       .catch(function (error) {
         // Handle Errors here.
@@ -97,15 +97,33 @@ export class Login extends Component {
     return (
       <View style={{
         padding: 20,
-        marginTop: '20%'
+       flex:1
       }}>
+
+        <View style={{flex:1}}></View>
+        <View style={{flex:1}}>
         <Text
           style={{
           textAlign: 'center',
           marginBottom: '2%',
           fontSize: 20,
-          fontWeight: 'bold'
-        }}>Login Screen
+          fontWeight: 'bold',
+          letterSpacing:5,
+          color:'hotpink',
+          textTransform:'uppercase'
+        }}>Betty Beuty Parlor
+        </Text>
+        <Text
+          style={{
+          textAlign: 'center',
+          marginBottom: '5%',
+          fontSize: 13,
+          color:'#ccc',
+          fontWeight: 'bold',
+          textTransform:'uppercase',
+          letterSpacing:5,
+          fontStyle:'italic'
+        }}> "Life is beautiful"
         </Text>
         <TextInput
         placeholder="Email address"
@@ -142,8 +160,11 @@ export class Login extends Component {
             fontSize: 20,
             textTransform: 'uppercase',
             color: 'white'
-          }}>Submit</Text>
+          }}>LOGIN</Text>
         </TouchableOpacity>
+        </View>
+        <View style={{flex:1}}></View>
+       
 
       </View>
     )

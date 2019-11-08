@@ -43,6 +43,8 @@ export class Home extends Component {
         </TouchableOpacity>
 
         <TouchableOpacity
+                onPress={()=>this.props.navigation.navigate('Additem')}
+
           style={{
           width: '100%',
           padding: 20,

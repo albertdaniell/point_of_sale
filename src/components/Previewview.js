@@ -6,7 +6,7 @@ import {
   Button,
   TextInput,
   TouchableOpacity,
-  Image
+  Image,ScrollView
 } from 'react-native';
 import firebase from 'firebase'
 import {Container} from 'native-base';
@@ -37,7 +37,8 @@ export class Previewview extends Component {
             fontWeight: 'bold'
           }}>Preview of Items selected</Text>
 
-          {cart.map((c) => {
+<ScrollView style={{marginBottom:20,height:'50%'}}>
+{cart.map((c) => {
             return (
               <Text style={{
                 paddingTop: 10
@@ -45,11 +46,16 @@ export class Previewview extends Component {
                 - (KSH. {c.amount})</Text>
             )
           })
-}
+        }
+</ScrollView>
+
+     
+
 
 <Text style={{fontSize:20,marginTop:10}}>Grand Total : {totalAm}</Text>
 
           <TouchableOpacity
+          onPress={()=>this.props.myPrint()}
             style={{
             backgroundColor: 'rgb(8, 41, 255)',
             padding: 10,

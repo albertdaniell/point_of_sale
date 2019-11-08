@@ -6,8 +6,21 @@ import LoginScreen from './src/components/Login'
 import HomeScreen from './src/components/Home'
 import Splash from './src/components/Splash'
 import Makesales from './src/components/Makesales'
+import Additem from './src/components/Additems'
 
 const MainNavigator = createStackNavigator({
+  Splash:{
+    screen:Splash,
+    navigationOptions:{
+      header:null
+    }
+  },
+  Login: {
+    screen: LoginScreen,
+    navigationOptions:{
+      header:null,
+    }
+  },
   Makesales: {
     screen: Makesales,
     navigationOptions:{
@@ -27,12 +40,15 @@ const MainNavigator = createStackNavigator({
     }
     
   },
-  Login: {
-    screen: LoginScreen,
+
+  Additem:{
+    screen:Additem,
     navigationOptions:{
-      header:null,
+      title:'Add item'
     }
+    
   },
+
 
 
  
