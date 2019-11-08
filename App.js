@@ -7,6 +7,7 @@ import HomeScreen from './src/components/Home'
 import Splash from './src/components/Splash'
 import Makesales from './src/components/Makesales'
 import Additem from './src/components/Additems'
+import AllSales from './src/components/Allsales'
 
 const MainNavigator = createStackNavigator({
   Splash:{
@@ -48,6 +49,15 @@ const MainNavigator = createStackNavigator({
     }
     
   },
+
+  AllSales:{
+    screen:AllSales,
+    navigationOptions:{
+      title:'All sales'
+    }
+    
+  },
+
 
 
 
