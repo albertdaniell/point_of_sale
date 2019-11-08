@@ -14,7 +14,7 @@ import Firebase from '../firebaseConfig'
 
 export class Previewview extends Component {
   render() {
-    const {cart}=this.props
+    const {cart,totalAm} = this.props
     return (
       <View
         style={{
@@ -36,37 +36,49 @@ export class Previewview extends Component {
             fontStyle: 'italic',
             fontWeight: 'bold'
           }}>Preview of Items selected</Text>
-        
-          {
-              cart.map((c)=>{
-             return(
-                <Text style={{paddingTop:10}}>{c.pname} - (KSH. {c.amount})</Text>
-             )
-              })
-          }
-          <TouchableOpacity style={{
+
+          {cart.map((c) => {
+            return (
+              <Text style={{
+                paddingTop: 10
+              }}>{c.pname}
+                - (KSH. {c.amount})</Text>
+            )
+          })
+}
+
+<Text style={{fontSize:20,marginTop:10}}>Grand Total : {totalAm}</Text>
+
+          <TouchableOpacity
+            style={{
             backgroundColor: 'rgb(8, 41, 255)',
-            padding:10,
-            alignItems:'center',
-            marginTop:20,
-            borderRadius:4
+            padding: 10,
+            alignItems: 'center',
+            marginTop: 20,
+            borderRadius: 4
           }}>
-            <Text style={{color:'white',textTransform:'uppercase'}}>Print</Text>
+            <Text
+              style={{
+              color: 'white',
+              textTransform: 'uppercase'
+            }}>Print</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-           onPress={()=>this.props.showPreviewFn()}
-          style={{
-            
-            padding:10,
-            alignItems:'center',
-            marginTop:20,
-            borderWidth:1,
-            borderColor:'rgba(255, 8, 74,.3)',
-            borderRadius:4
-
+            onPress={() => this.props.showPreviewFn()}
+            style={{
+            padding: 10,
+            alignItems: 'center',
+            marginTop: 20,
+            borderWidth: 1,
+            borderColor: 'rgba(255, 8, 74,.3)',
+            borderRadius: 4
           }}>
-            <Text style={{color:'rgb(255, 8, 74)',textTransform:'uppercase'}}>CLose</Text>
+            <Text
+              style={{
+              color: 'rgb(255, 8, 74)',
+              textTransform: 'uppercase'
+            }}>CLose</Text>
           </TouchableOpacity>
         </View>
 

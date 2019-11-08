@@ -28,19 +28,49 @@ export class Makesales extends Component {
          cart:[],
          date:'',
          tax:16,
-         cartItems:0
+         cartItems:0,
+         totalAm:0
       };
 
       showPreviewFn=this.showPreviewFn.bind(this)
       addToCart=this.addToCart.bind(this)
     };
+    myFn=()=>{
+
+        setTimeout(() => {
+            console.log(this.state.totalAm)
+        }, 1000);
+    //   setTimeout(() => {
+    //     this.state.cart.map((c)=>{
+    //         var totalam=0;
+    //         for (i=1;i<this.state.cartItems;i++){
+    //             totalam =totalam + c.amount
+    //             //console.log("the amount is ",totalam)
+    //             this.setState({
+    //                 totalAm:totalam
+    //             })
+    //                  }
+    //     })
+    //   }, 1000);
+    }
 
     calcItems=()=>{
     setTimeout(() => {
         this.setState({
             cartItems:this.state.cart.length
         })
+
+   
     }, 200);
+
+   
+
+    console.log(this.state.cart)
+// var totalam=0
+
+//     for (i=0;i<this.state.cartItems.length;i++){
+// totalam
+//     }
     }
 
 
@@ -48,6 +78,11 @@ export class Makesales extends Component {
 setTimeout(() => {
 
     this.calcItems()
+    this.myFn()
+var totalamount=parseInt(amount+this.state.totalAm)
+    this.setState({
+        totalAm:totalamount
+    })
     
     let cartItem={
         id:id,
@@ -60,7 +95,7 @@ setTimeout(() => {
         cart:[...this.state.cart,cartItem]
     })
 
-    console.log("cart.......",this.state.cart)
+   // console.log("cart.......",this.state.cart)
 
 }, 300);
     }
@@ -80,14 +115,15 @@ setTimeout(() => {
      
           <Products addToCart={this.addToCart}></Products>
           <Preview showPreviewFn={this.showPreviewFn}></Preview>
-          <Quant cartItems={this.state.cartItems}></Quant>
+          <Quant cartItems={this.state.cartItems} totalAm={this.state.totalAm}></Quant>
 
           {
               this.state.showPreview?
-              <PreviewView cart={this.state.cart} showPreviewFn={this.showPreviewFn}></PreviewView>
+              <PreviewView totalAm={this.state.totalAm} cart={this.state.cart} showPreviewFn={this.showPreviewFn}></PreviewView>
 
               :null
           }
+
       </View>
     )
   }

@@ -15,7 +15,7 @@ import Firebase from '../firebaseConfig'
 export class Quant extends Component {
   render() {
 
-    const {cartItems}=this.props
+    const {cartItems, totalAm}=this.props
     return (
       <View
         style={{
@@ -35,7 +35,7 @@ export class Quant extends Component {
           bottom: 10,
         }}>
           <Text style={{color:'white'}}>
-              {cartItems} Items
+              {cartItems} Items   |  Amount: Ksh. | {totalAm}
           </Text>
         </View>
       </View>
